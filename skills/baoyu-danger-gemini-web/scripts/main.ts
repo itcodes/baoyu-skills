@@ -59,16 +59,31 @@ function normalizeSessionMetadata(input: unknown): Array<string | null> {
   return [null, null, null];
 }
 
+function formatScriptCommand(fallback: string): string {
+  const raw = process.argv[1];
+  const displayPath = raw
+    ? (() => {
+        const relative = path.relative(process.cwd(), raw);
+        return relative && !relative.startsWith("..") ? relative : raw;
+      })()
+    : fallback;
+  const quotedPath = displayPath.includes(" ")
+    ? `"${displayPath.replace(/"/g, '\\"')}"`
+    : displayPath;
+  return `npx -y bun ${quotedPath}`;
+}
+
 function printUsage(cookiePath: string, profileDir: string): void {
+  const cmd = formatScriptCommand("scripts/main.ts");
   console.log(`Usage:
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts --prompt "Hello"
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts "Hello"
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts --prompt "A cute cat" --image generated.png
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts --promptfiles system.md content.md --image out.png
+  ${cmd} --prompt "Hello"
+  ${cmd} "Hello"
+  ${cmd} --prompt "A cute cat" --image generated.png
+  ${cmd} --promptfiles system.md content.md --image out.png
 
 Multi-turn conversation (agent generates unique sessionId):
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts "Remember 42" --sessionId abc123
-  npx -y bun skills/baoyu-danger-gemini-web/scripts/main.ts "What number?" --sessionId abc123
+  ${cmd} "Remember 42" --sessionId abc123
+  ${cmd} "What number?" --sessionId abc123
 
 Options:
   -p, --prompt <text>       Prompt text

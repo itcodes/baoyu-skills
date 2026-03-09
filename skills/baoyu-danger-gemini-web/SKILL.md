@@ -1,6 +1,14 @@
 ---
 name: baoyu-danger-gemini-web
 description: Generates images and text via reverse-engineered Gemini Web API. Supports text generation, image generation from prompts, reference images for vision input, and multi-turn conversations. Use when other skills need image generation backend, or when user requests "generate image with Gemini", "Gemini text generation", or needs vision-capable AI generation.
+version: 1.56.1
+metadata:
+  openclaw:
+    homepage: https://github.com/JimLiu/baoyu-skills#baoyu-danger-gemini-web
+    requires:
+      anyBins:
+        - bun
+        - npx
 ---
 
 # Gemini Web Client
@@ -12,10 +20,10 @@ Text/image generation via Gemini Web API. Supports reference images and multi-tu
 **Important**: All scripts are located in the `scripts/` subdirectory of this skill.
 
 **Agent Execution Instructions**:
-1. Determine this SKILL.md file's directory path as `SKILL_DIR`
-2. Script path = `${SKILL_DIR}/scripts/<script-name>.ts`
+1. Determine this SKILL.md file's directory path as `{baseDir}`
+2. Script path = `{baseDir}/scripts/<script-name>.ts`
 3. Resolve `${BUN_X}` runtime: if `bun` installed → `bun`; if `npx` available → `npx -y bun`; else suggest installing bun
-4. Replace all `${SKILL_DIR}` and `${BUN_X}` in this document with actual values
+4. Replace all `{baseDir}` and `${BUN_X}` in this document with actual values
 
 **Script Reference**:
 | Script | Purpose |
@@ -80,23 +88,23 @@ if (Test-Path "$HOME/.baoyu-skills/baoyu-danger-gemini-web/EXTEND.md") { "user" 
 
 ```bash
 # Text generation
-${BUN_X} ${SKILL_DIR}/scripts/main.ts "Your prompt"
-${BUN_X} ${SKILL_DIR}/scripts/main.ts --prompt "Your prompt" --model gemini-3-flash
+${BUN_X} {baseDir}/scripts/main.ts "Your prompt"
+${BUN_X} {baseDir}/scripts/main.ts --prompt "Your prompt" --model gemini-3-flash
 
 # Image generation
-${BUN_X} ${SKILL_DIR}/scripts/main.ts --prompt "A cute cat" --image cat.png
-${BUN_X} ${SKILL_DIR}/scripts/main.ts --promptfiles system.md content.md --image out.png
+${BUN_X} {baseDir}/scripts/main.ts --prompt "A cute cat" --image cat.png
+${BUN_X} {baseDir}/scripts/main.ts --promptfiles system.md content.md --image out.png
 
 # Vision input (reference images)
-${BUN_X} ${SKILL_DIR}/scripts/main.ts --prompt "Describe this" --reference image.png
-${BUN_X} ${SKILL_DIR}/scripts/main.ts --prompt "Create variation" --reference a.png --image out.png
+${BUN_X} {baseDir}/scripts/main.ts --prompt "Describe this" --reference image.png
+${BUN_X} {baseDir}/scripts/main.ts --prompt "Create variation" --reference a.png --image out.png
 
 # Multi-turn conversation
-${BUN_X} ${SKILL_DIR}/scripts/main.ts "Remember: 42" --sessionId session-abc
-${BUN_X} ${SKILL_DIR}/scripts/main.ts "What number?" --sessionId session-abc
+${BUN_X} {baseDir}/scripts/main.ts "Remember: 42" --sessionId session-abc
+${BUN_X} {baseDir}/scripts/main.ts "What number?" --sessionId session-abc
 
 # JSON output
-${BUN_X} ${SKILL_DIR}/scripts/main.ts "Hello" --json
+${BUN_X} {baseDir}/scripts/main.ts "Hello" --json
 ```
 
 ## Options
