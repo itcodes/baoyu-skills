@@ -5,7 +5,7 @@
       "name": "baoyu-url-to-markdown-scripts",
       "dependencies": {
         "@mozilla/readability": "^0.6.0",
-        "baoyu-chrome-cdp": "file:../../../packages/baoyu-chrome-cdp",
+        "baoyu-chrome-cdp": "file:./vendor/baoyu-chrome-cdp",
         "defuddle": "^0.10.0",
         "jsdom": "^24.1.3",
         "linkedom": "^0.18.12",
@@ -37,7 +37,7 @@
 
     "asynckit": ["asynckit@0.4.0", "", {}, "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="],
 
-    "baoyu-chrome-cdp": ["baoyu-chrome-cdp@file:../../../packages/baoyu-chrome-cdp", {}],
+    "baoyu-chrome-cdp": ["baoyu-chrome-cdp@file:vendor/baoyu-chrome-cdp", {}],
 
     "boolbase": ["boolbase@1.0.0", "", {}, "sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww=="],
 

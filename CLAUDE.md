@@ -38,7 +38,9 @@ skills/
 
 Top-level `scripts/` directory contains repository maintenance utilities:
 - `scripts/sync-clawhub.sh` - Publish skills to ClawHub/OpenClaw registry
-- `scripts/prepare-skill-artifact.mjs` - Build one releasable skill artifact with vendored local packages
+- `scripts/sync-shared-skill-packages.mjs` - Sync committed `vendor/` copies of shared workspace packages into skill script directories
+- `scripts/install-git-hooks.mjs` - Configure `.githooks/` as the repository-local git hooks path
+- `scripts/prepare-skill-artifact.mjs` - Build one releasable skill artifact from the already self-contained skill tree
 - `scripts/publish-skill-artifact.mjs` - Publish one prepared skill artifact
 - `scripts/sync-md-to-wechat.sh` - Sync markdown content to WeChat
 
@@ -216,6 +218,17 @@ bash scripts/sync-clawhub.sh <skill>   # sync one skill
 Requires `clawhub` CLI or `npx` (auto-downloads via npx if not installed).
 
 Release-time artifact preparation is configured via `.releaserc.yml`. Keep registry/project-specific packaging in hook scripts instead of hardcoding it into generic release instructions.
+
+### Shared Workspace Packages
+
+Shared workspace packages under `packages/` are the **only** source of truth. Do not edit copies under `skills/*/scripts/vendor/` directly.
+
+When updating a shared package:
+1. Edit the package under `packages/` first
+2. Run `node scripts/sync-shared-skill-packages.mjs`
+3. Review and commit the synced `skills/*/scripts/vendor/`, `package.json`, and `bun.lock` changes together
+
+Use `node scripts/install-git-hooks.mjs` to enable the repository `pre-push` hook. The hook reruns the sync and blocks push if the committed vendor copies are stale. The release flow assumes `main` already contains the final installable tree and only validates/copies it.
 
 ## Skill Loading Rules
 

@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "baoyu-chrome-cdp": "file:../../../packages/baoyu-chrome-cdp"
+    "baoyu-chrome-cdp": "file:./vendor/baoyu-chrome-cdp"
   }
 }

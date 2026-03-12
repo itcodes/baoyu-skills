@@ -164,4 +164,5 @@ posts/
 # ClawHub local state (current and legacy directory names from the official CLI)
 .clawhub/
 .clawdhub/
+.release-artifacts/
 .worktrees/

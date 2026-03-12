@@ -57,7 +57,7 @@ Supported hooks:
 
 | Hook | Purpose | Expected Responsibility |
 |------|---------|-------------------------|
-| `prepare_artifact` | Build a releasable artifact for one target | Vendor local deps, rewrite package metadata, stage files |
+| `prepare_artifact` | Build a releasable artifact for one target | Validate the target is self-contained, stage files, apply any project-specific packaging |
 | `publish_artifact` | Publish one prepared artifact | Upload artifact, attach version/changelog/tags |
 
 Supported placeholders:
