@@ -169,8 +169,9 @@ clawhub install baoyu-markdown-to-html
 # 同时指定布局和风格
 /baoyu-infographic path/to/content.md --layout funnel --style corporate-memphis
 
-# 指定比例
+# 指定比例（预设名称或自定义 W:H）
 /baoyu-infographic path/to/content.md --aspect portrait
+/baoyu-infographic path/to/content.md --aspect 3:4
 ```
 
 **选项**：
@@ -178,7 +179,7 @@ clawhub install baoyu-markdown-to-html
 |------|------|
 | `--layout <name>` | 信息布局（20 种选项） |
 | `--style <name>` | 视觉风格（17 种选项，默认：craft-handmade） |
-| `--aspect <ratio>` | landscape (16:9)、portrait (9:16)、square (1:1) |
+| `--aspect <ratio>` | 预设：landscape (16:9)、portrait (9:16)、square (1:1)。自定义：任意 W:H 比例（如 3:4、4:3、2.35:1） |
 | `--lang <code>` | 输出语言（en、zh、ja 等） |
 
 **布局**（信息结构）：

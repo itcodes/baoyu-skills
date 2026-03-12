@@ -169,8 +169,9 @@ Generate professional infographics with 20 layout types and 17 visual styles. An
 # Specify both
 /baoyu-infographic path/to/content.md --layout funnel --style corporate-memphis
 
-# With aspect ratio
+# With aspect ratio (named preset or custom W:H)
 /baoyu-infographic path/to/content.md --aspect portrait
+/baoyu-infographic path/to/content.md --aspect 3:4
 ```
 
 **Options**:
@@ -178,7 +179,7 @@ Generate professional infographics with 20 layout types and 17 visual styles. An
 |--------|-------------|
 | `--layout <name>` | Information layout (20 options) |
 | `--style <name>` | Visual style (17 options, default: craft-handmade) |
-| `--aspect <ratio>` | landscape (16:9), portrait (9:16), square (1:1) |
+| `--aspect <ratio>` | Named: landscape (16:9), portrait (9:16), square (1:1). Custom: any W:H ratio (e.g., 3:4, 4:3, 2.35:1) |
 | `--lang <code>` | Output language (en, zh, ja, etc.) |
 
 **Layouts** (information structure):

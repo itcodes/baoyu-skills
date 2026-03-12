@@ -17,6 +17,7 @@ Two dimensions: **layout** (information structure) × **style** (visual aestheti
 /baoyu-infographic path/to/content.md
 /baoyu-infographic path/to/content.md --layout hierarchical-layers --style technical-schematic
 /baoyu-infographic path/to/content.md --aspect portrait --lang zh
+/baoyu-infographic path/to/content.md --aspect 3:4
 /baoyu-infographic  # then paste content
 ```
 
@@ -26,7 +27,7 @@ Two dimensions: **layout** (information structure) × **style** (visual aestheti
 |--------|--------|
 | `--layout` | 21 options (see Layout Gallery), default: bento-grid |
 | `--style` | 20 options (see Style Gallery), default: craft-handmade |
-| `--aspect` | landscape (16:9), portrait (9:16), square (1:1) |
+| `--aspect` | Named: landscape (16:9), portrait (9:16), square (1:1). Custom: any W:H ratio (e.g., 3:4, 4:3, 2.35:1) |
 | `--lang` | en, zh, ja, etc. |
 
 ## Layout Gallery
@@ -220,7 +221,7 @@ Use **single AskUserQuestion call** with multiple questions to confirm all optio
 | Question | When | Options |
 |----------|------|---------|
 | **Combination** | Always | 3+ layout×style combos with rationale |
-| **Aspect** | Always | landscape (16:9), portrait (9:16), square (1:1) |
+| **Aspect** | Always | Named presets (landscape/portrait/square) or custom W:H ratio (e.g., 3:4, 4:3, 2.35:1) |
 | **Language** | Only if source ≠ user language | Language for text content |
 
 **Important**: Do NOT split into separate AskUserQuestion calls. Combine all applicable questions into one call.
@@ -235,6 +236,10 @@ Combine:
 3. Base template from `references/base-prompt.md`
 4. Structured content from Step 2
 5. All text in confirmed language
+
+**Aspect ratio resolution** for `{{ASPECT_RATIO}}`:
+- Named presets → ratio string: landscape→`16:9`, portrait→`9:16`, square→`1:1`
+- Custom W:H ratios → use as-is (e.g., `3:4`, `4:3`, `2.35:1`)
 
 ### Step 6: Generate Image
 
