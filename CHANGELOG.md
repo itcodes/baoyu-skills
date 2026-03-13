@@ -2,6 +2,11 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.64.0 - 2026-03-13
+
+### Features
+- `baoyu-image-gen`: add OpenRouter provider with support for image generation, reference images, and configurable models
+
 ## 1.63.0 - 2026-03-13
 
 ### Features
