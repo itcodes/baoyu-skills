@@ -2,6 +2,20 @@
 
 [English](./CHANGELOG.md) | 中文
 
+## 1.63.0 - 2026-03-13
+
+### 新功能
+- `baoyu-url-to-markdown`：本地浏览器抓取失败时自动回退到 `defuddle.md` 托管 API
+- `baoyu-url-to-markdown`：将 YouTube 字幕/文字记录提取到 Markdown 输出中
+- `baoyu-url-to-markdown`：转换前展开 Shadow DOM 内容，提升 Web Component 页面的转换质量
+- `baoyu-url-to-markdown`：Markdown front matter 中包含语言标识（如有）
+
+### 重构
+- `baoyu-url-to-markdown`：将单体转换器拆分为 defuddle、legacy 和 shared 三个模块
+
+### 文档
+- 修复 README 中 Claude Code marketplace 仓库名大小写
+
 ## 1.62.0 - 2026-03-12
 
 ### 新功能

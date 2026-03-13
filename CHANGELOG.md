@@ -2,6 +2,20 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.63.0 - 2026-03-13
+
+### Features
+- `baoyu-url-to-markdown`: add hosted `defuddle.md` API fallback when local browser capture fails
+- `baoyu-url-to-markdown`: extract YouTube transcript/caption text into markdown output
+- `baoyu-url-to-markdown`: materialize shadow DOM content for better web-component page conversion
+- `baoyu-url-to-markdown`: include language hint in markdown front matter when available
+
+### Refactor
+- `baoyu-url-to-markdown`: split monolithic converter into defuddle, legacy, and shared modules
+
+### Documentation
+- Fix Claude Code marketplace repo casing in READMEs
+
 ## 1.62.0 - 2026-03-12
 
 ### Features
