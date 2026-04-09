@@ -2,6 +2,17 @@
 
 English | [中文](./CHANGELOG.zh.md)
 
+## 1.95.0 - 2026-04-08
+
+### Features
+- `baoyu-infographic`: add `hand-drawn-edu` style — macaron pastels, hand-drawn wobble, stick figures
+- `baoyu-slide-deck`: add `hand-drawn-edu` preset and `macaron` mood dimension with pastel color palette
+
+## 1.94.0 - 2026-04-08
+
+### Features
+- `baoyu-cover-image`: add macaron palette and hand-drawn-edu style preset
+
 ## 1.93.0 - 2026-04-08
 
 ### Features

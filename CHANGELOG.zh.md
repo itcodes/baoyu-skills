@@ -2,6 +2,17 @@
 
 [English](./CHANGELOG.md) | 中文
 
+## 1.95.0 - 2026-04-08
+
+### 新功能
+- `baoyu-infographic`：新增 `hand-drawn-edu` 风格 — 马卡龙柔和色块、手绘线条、火柴人角色
+- `baoyu-slide-deck`：新增 `hand-drawn-edu` 预设和 `macaron` 色调维度，含柔和马卡龙色板
+
+## 1.94.0 - 2026-04-08
+
+### 新功能
+- `baoyu-cover-image`：新增马卡龙色板和 hand-drawn-edu 风格预设
+
 ## 1.93.0 - 2026-04-08
 
 ### 新功能
