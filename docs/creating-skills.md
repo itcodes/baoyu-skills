@@ -127,11 +127,49 @@ test -f "$HOME/.baoyu-skills/<skill-name>/EXTEND.md" && echo "user"
 | Result | Action |
 |--------|--------|
 | Found | Read, parse, display summary |
-| Not found | Ask user with AskUserQuestion |
+| Not found | Ask user via the runtime's user-input tool (see [user-input-tools.md](user-input-tools.md)) |
 ```
 
 End of SKILL.md should include:
 ```markdown
 ## Extension Support
 Custom configurations via EXTEND.md. See **Step 1.1** for paths and supported options.
+```
+
+## User Input Tools Section (Required)
+
+Every SKILL.md that prompts the user for choices MUST include exactly one `## User Input Tools` section near the top (right after the intro, before the main workflow). The rule must be **inlined** — do NOT link to `docs/user-input-tools.md` (skills are self-contained; see [CLAUDE.md → Skill Self-Containment](../CLAUDE.md)). The author-side canonical reference lives at [user-input-tools.md](user-input-tools.md); copy its body into each new SKILL.md.
+
+Standard snippet (copy verbatim):
+
+```markdown
+## User Input Tools
+
+When this skill prompts the user, follow this tool-selection rule (priority order):
+
+1. **Prefer built-in user-input tools** exposed by the current agent runtime — e.g., `AskUserQuestion`, `request_user_input`, `clarify`, `ask_user`, or any equivalent.
+2. **Fallback**: if no such tool exists, emit a numbered plain-text message and ask the user to reply with the chosen number/answer for each question.
+3. **Batching**: if the tool supports multiple questions per call, combine all applicable questions into a single call; if only single-question, ask them one at a time in priority order.
+
+Concrete `AskUserQuestion` references below are examples — substitute the local equivalent in other runtimes.
+```
+
+## Image Generation Tools Section (Required for image-gen skills)
+
+Every SKILL.md that renders images — whether by calling an image-generation API directly or by delegating to another skill — MUST include exactly one `## Image Generation Tools` section near the top (after `## User Input Tools`, before the main workflow). The rule must be **inlined** — do NOT link to `docs/image-generation-tools.md` (skills are self-contained; see [CLAUDE.md → Skill Self-Containment](../CLAUDE.md)). The author-side canonical reference lives at [image-generation-tools.md](image-generation-tools.md); copy its body into each new SKILL.md.
+
+Standard snippet (copy verbatim):
+
+```markdown
+## Image Generation Tools
+
+When this skill needs to render an image:
+
+- **Use whatever image-generation tool or skill is available** in the current runtime — e.g., Codex `imagegen`, Hermes `image_generate`, `baoyu-imagine`, or any equivalent the user has installed.
+- **If multiple are available**, ask the user **once** at the start which to use (batch with any other initial questions).
+- **If none are available**, tell the user and ask how to proceed.
+
+**Prompt file requirement (hard)**: write each image's full, final prompt to a standalone file under `prompts/` (naming: `NN-{type}-[slug].md`) BEFORE invoking any backend. The backend receives the prompt file (or its content); the file is the reproducibility record and lets you switch backends without regenerating prompts.
+
+Concrete tool names (`imagegen`, `image_generate`, `baoyu-imagine`) above are examples — substitute the local equivalents under the same rule.
 ```
