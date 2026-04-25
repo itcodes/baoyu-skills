@@ -19,6 +19,7 @@ import {
   parseArgs,
   parseOpenAIImageApiDialect,
   parseSimpleYaml,
+  validateReferenceImages,
 } from "./main.ts";
 
 function makeArgs(overrides: Partial<CliArgs> = {}): CliArgs {
@@ -120,6 +121,15 @@ test("parseArgs falls back to positional prompt and rejects invalid provider", (
   assert.throws(
     () => parseArgs(["--provider", "stability"]),
     /Invalid provider/,
+  );
+});
+
+test("validateReferenceImages can skip remote URLs for providers that support them", async () => {
+  await validateReferenceImages(["https://example.com/ref.png"], { allowRemoteUrls: true });
+
+  await assert.rejects(
+    () => validateReferenceImages(["https://example.com/ref.png"]),
+    /Reference image not found/,
   );
 });
 
@@ -308,7 +318,7 @@ test("detectProvider rejects non-ref-capable providers and prefers Google first 
     () =>
       detectProvider(
         makeArgs({
-          provider: "dashscope",
+          provider: "zai",
           referenceImages: ["ref.png"],
         }),
       ),
@@ -426,6 +436,33 @@ test("detectProvider infers Seedream from model id and allows Seedream reference
   );
 });
 
+test("detectProvider allows DashScope reference-image workflows when explicitly chosen for wan2.7 models", (t) => {
+  useEnv(t, {
+    GOOGLE_API_KEY: null,
+    OPENAI_API_KEY: null,
+    AZURE_OPENAI_API_KEY: null,
+    AZURE_OPENAI_BASE_URL: null,
+    OPENROUTER_API_KEY: null,
+    DASHSCOPE_API_KEY: "dashscope-key",
+    MINIMAX_API_KEY: null,
+    REPLICATE_API_TOKEN: null,
+    JIMENG_ACCESS_KEY_ID: null,
+    JIMENG_SECRET_ACCESS_KEY: null,
+    ARK_API_KEY: null,
+  });
+
+  assert.equal(
+    detectProvider(
+      makeArgs({
+        provider: "dashscope",
+        model: "wan2.7-image-pro",
+        referenceImages: ["ref.png"],
+      }),
+    ),
+    "dashscope",
+  );
+});
+
 test("detectProvider selects MiniMax when only MiniMax credentials are configured or the model id matches", (t) => {
   useEnv(t, {
     GOOGLE_API_KEY: null,
@@ -504,7 +541,7 @@ test("loadBatchTasks and createTaskArgs resolve batch-relative paths", async (t)
           id: "hero",
           promptFiles: ["prompts/hero.md"],
           image: "out/hero",
-          ref: ["refs/hero.png"],
+          ref: ["refs/hero.png", "https://example.com/ref.png"],
           ar: "16:9",
         },
       ],
@@ -533,6 +570,7 @@ test("loadBatchTasks and createTaskArgs resolve batch-relative paths", async (t)
   assert.equal(taskArgs.imagePath, path.join(loaded.batchDir, "out/hero"));
   assert.deepEqual(taskArgs.referenceImages, [
     path.join(loaded.batchDir, "refs/hero.png"),
+    "https://example.com/ref.png",
   ]);
   assert.equal(taskArgs.provider, "replicate");
   assert.equal(taskArgs.aspectRatio, "16:9");
@@ -554,6 +592,30 @@ test("path normalization, worker count, and retry classification follow expected
   assert.equal(
     isRetryableGenerationError(
       new Error("Replicate returned 2 outputs, but baoyu-imagine currently supports saving exactly one image per request."),
+    ),
+    false,
+  );
+  assert.equal(
+    isRetryableGenerationError(
+      new Error("DashScope wan2.7 image models accept at most 9 reference images. Received 10."),
+    ),
+    false,
+  );
+  assert.equal(
+    isRetryableGenerationError(
+      new Error("DashScope wan2.7 image models in baoyu-imagine support exactly one output image per request."),
+    ),
+    false,
+  );
+  assert.equal(
+    isRetryableGenerationError(
+      new Error("DashScope wan2.7 image models support aspect ratios in [1:8, 8:1]."),
+    ),
+    false,
+  );
+  assert.equal(
+    isRetryableGenerationError(
+      new Error("DashScope wan2.7-image requires total pixels between 768*768 and 2048*2048."),
     ),
     false,
   );
